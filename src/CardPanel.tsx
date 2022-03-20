@@ -1,10 +1,10 @@
-import { Accordion, AccordionDetails, AccordionSummary, Card, Divider } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Card, Checkbox, Divider } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardList } from "./CardList";
 import { useRef } from "react";
 import { useDrop } from "react-dnd";
 
-export const CardPanel = ({ data, getRecord, updateData, area }: any) => {
+export const CardPanel = ({ items, updateData, area,updateCheckBox }: any) => {
   const ref = useRef<HTMLDivElement>(null)
 
   const acceptdata = () => {
@@ -34,17 +34,32 @@ export const CardPanel = ({ data, getRecord, updateData, area }: any) => {
   console.log("isOver:", isOver)
   const PanelStyle = isOver ? {backgroundColor: "#FEB2B2" } : { backgroundColor: "#BEE3F8" }
 
+  const parentflg = items.every(
+    (item: any) => item.checkflg === true
+  );
+
+  const updatedata = (event:any) => {
+    event.stopPropagation()
+    updateCheckBox({
+      ptn: "parent",
+      area: area,
+      parentflg: parentflg
+    });
+  };
+
   return (
     <Card ref={ref}>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Checkbox checked={parentflg} onClick={(e)=>updatedata(e)}/>
           {area}
         </AccordionSummary>
         <Divider />
         <AccordionDetails sx={PanelStyle}>
           <CardList
-            items={getRecord({ data, area: area })}
+            items={items}
             updateData={updateData}
+            updateCheckBox={updateCheckBox}
           />
         </AccordionDetails>
       </Accordion>

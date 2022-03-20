@@ -25,8 +25,9 @@ export default function App() {
   const updateData = ({ area, CMaterialId }: any) => {
     setData((prev) => {
       const data = prev.MaterialItem.map(item => {
-        return item.CMaterialId === CMaterialId ? { ...item, area: area } : item
+        return item.CMaterialId === CMaterialId ? { ...item, area: area, checkflg: false } : item
       })
+      console.log("data:",data)
       return { ...prev, MaterialItem: data }
     })
   }
@@ -36,7 +37,7 @@ export default function App() {
     console.log("CMaterialId:", CMaterialId, "preCMaterialId:", preCMaterialId)
     const targetItem = data.MaterialItem.filter(item => {
       return item.CMaterialId === CMaterialId
-    }).map(item => { return { ...item, area: "layoutcompleted" } })
+    }).map(item => { return { ...item, area: "layoutcompleted", checkflg: false } })
     const newItems = data.MaterialItem.filter(item => {
       return item.CMaterialId !== CMaterialId
     })
@@ -52,15 +53,39 @@ export default function App() {
     })
   }
 
+  const updateCheckBox = ({ ptn, area, parentflg, CMaterialId }: any) => {
+    setData((prev) => {
+      const data = prev.MaterialItem.map((item) => {
+        if (ptn === "parent") {
+          if (item.area !== area) {
+            console.log("false")
+            item.checkflg = false;
+          } else {
+            console.log("parent")
+            item.checkflg = !parentflg;
+          }
+        } else {
+          if (item.CMaterialId === CMaterialId) {
+            item.checkflg = !item.checkflg;
+          } else if (item.area !== area) {
+            item.checkflg = false;
+          }
+        }
+        return item;
+      });
+      return { ...prev, MaterialItem: data }
+    });
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Box display="grid" gridTemplateColumns="350px 1fr 350px" style={{ gridGap: "10px" }}>
         <Box>
-          <CardPanel data={data} getRecord={getRecord} updateData={updateData} area={"layoutcompleted"} />
+          <CardPanel items={getRecord({ data, area: "layoutcompleted" })} updateData={updateData} area={"layoutcompleted"} updateCheckBox={updateCheckBox} />
           <Divider />
-          <CardPanel data={data} getRecord={getRecord} updateData={updateData} area={"unlayout"} />
+          <CardPanel items={getRecord({ data, area: "unlayout" })} updateData={updateData} area={"unlayout"} updateCheckBox={updateCheckBox} />
           <Divider />
-          <CardPanel data={data} getRecord={getRecord} updateData={updateData} area={"outoflayout"} />
+          <CardPanel items={getRecord({ data, area: "outoflayout" })} updateData={updateData} area={"outoflayout"} updateCheckBox={updateCheckBox} />
         </Box>
         <Box>
           <LayoutArea items={getRecord({ data, area: "layoutcompleted" })} updateData={updateData} insertData={insertData} area={"layoutcompleted"} />

@@ -8,7 +8,7 @@ export const LayoutCard = ({ owncard, updateData, insertData,setDropState, index
   const dragRef = useRef<HTMLDivElement>(null)
 
   const [{ isOver }, drop] = useDrop({
-    accept: ["unlayout","layout"],
+    accept: ["layout","unlayout","outoflayout"],
     drop(item: any) {
       if (!ref.current || item.CMaterialId === owncard.CMaterialId) {
         return

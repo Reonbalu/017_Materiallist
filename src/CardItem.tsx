@@ -1,17 +1,17 @@
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Checkbox } from "@mui/material";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 const DND_PTN1 = "DND_PTN1";
 
-export const CardItem = ({ owncard,updateData }: any) => {
+export const CardItem = ({ owncard, updateData, updateCheckBox }: any) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const acceptdata = () => {
-    if(owncard.area === "layoutcompleted"){
+    if (owncard.area === "layoutcompleted") {
       return ""
-    }else if(owncard.area === "unlayout" ){
+    } else if (owncard.area === "unlayout") {
       return "outoflayout"
-    }else{
+    } else {
       return "unlayout"
     }
   }
@@ -36,7 +36,7 @@ export const CardItem = ({ owncard,updateData }: any) => {
         return;
       }
       console.log("item:", item);
-      updateData({area: owncard.area, CMaterialId:item.CMaterialId})
+      updateData({ area: owncard.area, CMaterialId: item.CMaterialId })
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver()
@@ -49,8 +49,9 @@ export const CardItem = ({ owncard,updateData }: any) => {
     <Card ref={ref}>
       <CardContent
         key={owncard.CMaterialId}
-        sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+        sx={{ alignItems: "center", display: "grid", gridTemplateColumns: "0.4fr 1fr 1fr" }}
       >
+        <Checkbox checked={owncard.checkflg} onClick={() => updateCheckBox({ area: owncard.area, CMaterialId: owncard.CMaterialId })} />
         <li>{owncard.CMaterialId}</li>
         <li>{owncard.name}</li>
       </CardContent>

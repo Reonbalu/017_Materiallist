@@ -10,7 +10,7 @@ export const LayoutArea = ({ items, updateData, insertData, area }: any) => {
   const [dropState, setDropState] = useState(true)
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: "unlayout",
+    accept: ["unlayout","outoflayout"],
     drop(item: any, monitor) {
       const didDrop = monitor.didDrop()
       if (!ref.current || didDrop) {
