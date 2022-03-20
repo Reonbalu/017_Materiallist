@@ -1,6 +1,6 @@
 import { render } from "react-dom";
 
-import App from "./App";
+import EditErea from "./EditErea";
 
 const rootElement = document.getElementById("root");
-render(<App />, rootElement);
+render(<EditErea />, rootElement);

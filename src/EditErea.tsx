@@ -19,7 +19,7 @@ const getRecord = ({ data, area }: any) => {
   return targetAreaList;
 };
 
-export default function App() {
+export default function EditErea() {
   const [data, setData] = useState(record);
 
   const updateData = ({ area, CMaterialId }: any) => {
