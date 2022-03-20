@@ -55,18 +55,25 @@ export default function EditErea() {
   const updateCheckBox = ({ ptn, area, parentflg, CMaterialId }: any) => {
     setData((prev) => {
       const data = prev.MaterialItem.map((item) => {
+        // 親チェックボックスがクリックされた場合
         if (ptn === "parent") {
+          // チェックボックスが押された場所のエリアが異なる場合
           if (item.area !== area) {
-            console.log("false")
+            // 子チェックボックスをすべてオフにする
             item.checkflg = false;
           } else {
-            console.log("parent")
+            // 子チェックボックスを現在の親チェックボックスの反対値を設定
             item.checkflg = !parentflg;
           }
+        // 子チェックボックスがクリックされた場合
         } else {
+          // チェックボックスが押されたIDと同じ場合
           if (item.CMaterialId === CMaterialId) {
+            // 現在のチェックボックスの反対値を設定
             item.checkflg = !item.checkflg;
+          // チェックボックスが押された場所のエリアが異なる場合
           } else if (item.area !== area) {
+            // 子チェックボックスの値をオフに設定(※エリアが同じ場合は、そのまま)
             item.checkflg = false;
           }
         }

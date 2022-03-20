@@ -3,41 +3,44 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardList } from "./CardList";
 import { useRef } from "react";
 import { useDrop } from "react-dnd";
+import { MenuList } from "./MenuList"
 
-export const CardPanel = ({ items, updateData, area,updateCheckBox }: any) => {
+export const CardPanel = ({ items, updateData, area, updateCheckBox }: any) => {
   const ref = useRef<HTMLDivElement>(null)
 
   const acceptdata = () => {
-    if(area === "layoutcompleted"){
+    if (area === "layoutcompleted") {
       return ""
-    }else if(area === "unlayout" ){
+    } else if (area === "unlayout") {
       return "outoflayout"
-    }else{
+    } else {
       return "unlayout"
     }
   }
 
-  const [{isOver}, drop] = useDrop({
-    accept : acceptdata(),
-    drop(item:any){
-      if(!ref.current){
+  const [{ isOver }, drop] = useDrop({
+    accept: acceptdata(),
+    drop(item: any) {
+      if (!ref.current) {
         return
       }
-      updateData({area: area, CMaterialId: item.CMaterialId})
+      updateData({ area: area, CMaterialId: item.CMaterialId })
     },
-    collect : monitor => ({
-      isOver : !!monitor.isOver()
+    collect: monitor => ({
+      isOver: !!monitor.isOver()
     })
   })
 
   drop(ref)
-  const PanelStyle = isOver ? {backgroundColor: "#FEB2B2" } : { backgroundColor: "#BEE3F8" }
+  const PanelStyle = isOver ? { backgroundColor: "#FEB2B2" } : { backgroundColor: "#BEE3F8" }
 
   const parentflg = items.length !== 0 ? items.every(
     (item: any) => item.checkflg === true
   ) : false;
+  const flgcheck = items.some((item:any) => item.checkflg === true)
+  console.log("flgcheck:",flgcheck)
 
-  const updatedata = (event:any) => {
+  const updatedata = (event: any) => {
     event.stopPropagation()
     updateCheckBox({
       ptn: "parent",
@@ -50,7 +53,8 @@ export const CardPanel = ({ items, updateData, area,updateCheckBox }: any) => {
     <Card ref={ref}>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Checkbox checked={parentflg} onClick={(e)=>updatedata(e)}/>
+          <MenuList area={area} flgcheck={flgcheck}/>
+          <Checkbox checked={parentflg} onClick={(e) => updatedata(e)} />
           {area}
         </AccordionSummary>
         <Divider />

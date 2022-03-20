@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
+    "@blueprintjs/core": "^3.54.0",
     "@emotion/react": "11.8.1",
     "@emotion/styled": "11.8.1",
     "@mui/icons-material": "5.4.4",
