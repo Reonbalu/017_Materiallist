@@ -27,7 +27,6 @@ export default function App() {
       const data = prev.MaterialItem.map(item => {
         return item.CMaterialId === CMaterialId ? { ...item, area: area, checkflg: false } : item
       })
-      console.log("data:",data)
       return { ...prev, MaterialItem: data }
     })
   }

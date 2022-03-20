@@ -31,12 +31,11 @@ export const CardPanel = ({ items, updateData, area,updateCheckBox }: any) => {
   })
 
   drop(ref)
-  console.log("isOver:", isOver)
   const PanelStyle = isOver ? {backgroundColor: "#FEB2B2" } : { backgroundColor: "#BEE3F8" }
 
-  const parentflg = items.every(
+  const parentflg = items.length !== 0 ? items.every(
     (item: any) => item.checkflg === true
-  );
+  ) : false;
 
   const updatedata = (event:any) => {
     event.stopPropagation()
